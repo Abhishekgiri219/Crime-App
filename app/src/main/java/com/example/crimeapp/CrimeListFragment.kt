@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.DiffUtil
 import java.util.*
 
 class CrimeListFragment : Fragment() {
@@ -46,7 +47,7 @@ class CrimeListFragment : Fragment() {
     }
 
     private lateinit var crimeRecyclerView: RecyclerView
-    private var crimeListAdapter: CrimeListAdapter? = CrimeListAdapter(emptyList())
+    private var crimeListAdapter: CrimeListAdapter? = CrimeListAdapter()
 
     private val crimeListViewModel: CrimeListViewModel by lazy{
         ViewModelProvider(requireActivity()).get(CrimeListViewModel::class.java)
@@ -83,7 +84,7 @@ class CrimeListFragment : Fragment() {
     }
 
     private fun updateUI(crimes: List<Crime>) {
-        crimeListAdapter = CrimeListAdapter(crimes as ArrayList<Crime>)
+        crimeListAdapter?.submitList(crimes)
         crimeRecyclerView.adapter = crimeListAdapter
     }
 
@@ -98,21 +99,32 @@ class CrimeListFragment : Fragment() {
         callbacks = null
     }
 
-    inner class CrimeListAdapter(crimelist: List<Crime> ) : RecyclerView.Adapter<CrimeViewHolder>() {
-        var Crimelist = crimelist
+    inner class CrimeListAdapter() : androidx.recyclerview.widget.ListAdapter<Crime, CrimeViewHolder>(DiffCallback()) {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CrimeViewHolder {
             val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.item_view, parent, false)
+
             return CrimeViewHolder(view)
         }
 
         override fun onBindViewHolder(holder: CrimeViewHolder, position: Int) {
-            holder.bind(Crimelist[position])
+            holder.bind(currentList[position])
         }
 
         override fun getItemCount(): Int {
-            return Crimelist.size
+            return currentList.size
+        }
+
+    }
+
+    inner class DiffCallback : DiffUtil.ItemCallback<Crime>(){
+        override fun areItemsTheSame(oldItem: Crime, newItem: Crime): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Crime, newItem: Crime): Boolean {
+            return oldItem == newItem
         }
     }
 
