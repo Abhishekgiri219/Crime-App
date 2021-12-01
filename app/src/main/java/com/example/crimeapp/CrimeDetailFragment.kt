@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.android.synthetic.main.fragment_crime_detail.*
+import java.text.DateFormat
 import java.util.*
 
 private const val TAG = "CrimeFragment"
@@ -66,6 +67,24 @@ class CrimeDetailFragment : Fragment() {
             isSolvedCheckBox.isChecked = crime.misSolved
             jumpDrawablesToCurrentState()
         }
+    }
+
+    private fun getCrimeReport() : String {
+        val solvedString = if(crime.misSolved){
+            getString(R.string.crime_report_solved)
+        }
+        else {
+            getString(R.string.crime_report_unsolved)
+        }
+
+        val dateString = android.text.format.DateFormat.format("EEE, MM , dd", crime.mdate).toString()
+
+        val suspectString = if(crime.suspect.isBlank()){
+            getString(R.string.crime_report_no_suspect)
+        }
+        else getString(R.string.crime_report_suspect, crime.suspect)
+
+        return getString(R.string.crime_report, crime.mtitle, dateString, solvedString, suspectString)
     }
 
     companion object {

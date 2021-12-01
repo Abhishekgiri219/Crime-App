@@ -10,7 +10,7 @@
         android:id="@+id/crime_title_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="this is a crime detail fragment" />
+        />
 
     <Button
         android:id="@+id/crime_date_textview"
@@ -23,5 +23,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="CheckBox" />
+
+    <Button
+        android:id="@+id/suspect_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/choose_suspect_button" />
+
+    <Button
+        android:id="@+id/send_report_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/send_report_button" />
 
 </LinearLayout>

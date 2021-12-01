@@ -8,7 +8,9 @@ import java.util.*
 data class Crime(@PrimaryKey val id: UUID = UUID.randomUUID(),
                  var mtitle: String? = "",
                  var mdate: Date?= Date(),
-                 var misSolved: Boolean = false){
+                 var misSolved: Boolean = false,
+                 var suspect: String = ""
+                 ){
 
     override fun toString(): String {
         return super.toString()
